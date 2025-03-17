@@ -5,8 +5,8 @@ This is a multiplayer Flutter game where players compete in multiple rounds.
 ## 📸 Screenshots
 
 ### Splash home Screen
-![Splash home Screen](Home.jpg)
+![Splash home Screen](intro.jpg)
 
 ### Team Registeration Screen
-![Registeration](registeration.jpg)
+![Registeration](Registeration.jpg)
 
