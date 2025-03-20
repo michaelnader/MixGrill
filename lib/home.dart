@@ -35,21 +35,42 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: Container(
-        width: double.infinity,
-        height: double.infinity,
+        width: screenWidth,
+        height: screenHeight,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/b4.jpg"), // Background image added
+            image: AssetImage("assets/b4.jpg"),
             fit: BoxFit.cover,
           ),
         ),
         child: SafeArea(
           child: Column(
             children: [
+              const SizedBox(height: 20),
+              // Constant "Mix Grill" Text
+              ShaderMask(
+                shaderCallback: (bounds) => const LinearGradient(
+                  colors: [Colors.white, Colors.lightBlueAccent],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ).createShader(bounds),
+                child: const Text(
+                  "Mix Grill",
+                  style: TextStyle(
+                    fontSize: 50,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.5,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
               Expanded(
-                flex: 3,
+                flex: 4,
                 child: PageView.builder(
                   onPageChanged: (value) {
                     setState(() {
@@ -66,10 +87,9 @@ class _SplashScreenState extends State<SplashScreen> {
               Expanded(
                 flex: 2,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.09),
                   child: Column(
                     children: <Widget>[
-                      const Spacer(),
                       _buildPageIndicators(),
                       const Spacer(flex: 2),
                       ElevatedButton(
@@ -85,18 +105,18 @@ class _SplashScreenState extends State<SplashScreen> {
                           elevation: 5,
                           backgroundColor: Colors.lightBlueAccent,
                           foregroundColor: Colors.white,
-                          minimumSize: const Size(double.infinity, 55),
+                          minimumSize: Size(double.infinity, screenHeight * 0.07),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25),
                           ),
                         ),
                         child: const Text("Start Game", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                       ),
-                      const SizedBox(height: 20),
                     ],
                   ),
                 ),
               ),
+              SizedBox(height: screenHeight * 0.05),
             ],
           ),
         ),
@@ -131,54 +151,33 @@ class SplashContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Column(
       children: <Widget>[
-        const Spacer(),
-        ShaderMask(
-          shaderCallback: (bounds) => const LinearGradient(
-            colors: [Colors.white, Colors.lightBlueAccent], // White to Blue Gradient
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ).createShader(bounds),
-          child: const Text(
-            "Mix Grill",
-            style: TextStyle(
-              fontSize: 50,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.5,
-              color: Colors.white, // Must be white for ShaderMask to work
-            ),
-          ),
-        ),
         const SizedBox(height: 20),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Container(
-            padding: const EdgeInsets.all(15),
-            decoration: BoxDecoration(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Text(
-              text!,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 20,
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-                height: 1.5,
-              ),
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
+          child: Text(
+            text!,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 20,
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              height: 1.5,
             ),
           ),
         ),
         const SizedBox(height: 20),
         ClipRRect(
-          borderRadius: BorderRadius.circular(30), // Softer rounded corners
+          borderRadius: BorderRadius.circular(30),
           child: Image.asset(
             image!,
             fit: BoxFit.cover,
-            height: 250,
-            width: 350,
+            height: screenHeight * 0.25,
+            width: screenWidth * 0.8,
           ),
         ),
       ],

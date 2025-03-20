@@ -97,12 +97,14 @@ class _RoundThreeScreenState extends State<RoundThreeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     bool allTeamsPlayed = _currentTeamIndex == GameData.teams.length - 1;
 
     return Scaffold(
       body: Container(
-        width: double.infinity,
-        height: double.infinity,
+        width: screenWidth,
+        height: screenHeight,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/back.jpg"),
@@ -111,115 +113,86 @@ class _RoundThreeScreenState extends State<RoundThreeScreen> {
         ),
         child: SafeArea(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 80.0),
-                  child: Text(
-                    "Final Round",
-                    style: TextStyle(
-                      fontSize: 45,
-                      fontWeight: FontWeight.bold,
-                      foreground: Paint()
-                        ..shader = const LinearGradient(
-                          colors: [Colors.cyan, Colors.white],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ).createShader(const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
-                    ),
-                  ),
+              SizedBox(height: screenHeight * 0.08),
+              Text(
+                "Final Round",
+                style: TextStyle(
+                  fontSize: screenWidth * 0.11,
+                  fontWeight: FontWeight.bold,
+                  foreground: Paint()
+                    ..shader = const LinearGradient(
+                      colors: [Colors.cyan, Colors.white],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ).createShader(Rect.fromLTWH(0.0, 0.0, screenWidth, 70.0)),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 142.0, top: 20.0),
-                child: Text(
-                  GameData.teams.isNotEmpty
-                      ? " ${GameData.teams[_currentTeamIndex]}"
-                      : "No teams available!",
-                  style: const TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
+              SizedBox(height: screenHeight * 0.02),
+              Text(
+                GameData.teams.isNotEmpty ? "${GameData.teams[_currentTeamIndex]}" : "No teams available!",
+                style: TextStyle(
+                    fontSize: screenWidth * 0.09,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+              SizedBox(height: screenHeight * 0.05),
+              Text(
+                "$_timeLeft seconds left",
+                style: TextStyle(
+                  fontSize: screenWidth * 0.09,
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 80),
-              Center(
-                child: Text(
-                  "$_timeLeft seconds left",
-                  style: const TextStyle(fontSize: 40, color: Colors.red, fontWeight: FontWeight.bold),
+              SizedBox(height: screenHeight * 0.02),
+              Text(
+                _currentWord.isNotEmpty ? _currentWord : "No word available!",
+                style: TextStyle(
+                  fontSize: screenWidth * 0.13,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
+                textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 20),
-              Center(
-                child: Text(
-                  _currentWord.isNotEmpty ? _currentWord : "No word available!",
-                  style: const TextStyle(fontSize: 60, fontWeight: FontWeight.bold, color: Colors.white),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              const SizedBox(height: 100),
-              Center(
-                child: ElevatedButton(
-                  onPressed: _pauseResumeTimer,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange,
-                    foregroundColor: Colors.white,
-                    minimumSize: const Size(200, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: Text(_isPaused ? "Resume Timer" : "Pause Timer"),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Center(
-                child: ElevatedButton(
-                  onPressed: _correctAnswer,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
-                    minimumSize: const Size(200, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: const Text("Change Word (Correct Answer)"),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Center(
-                child: allTeamsPlayed
-                    ? ElevatedButton.icon(
-                  onPressed: _announceWinner,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.purple,
-                    foregroundColor: Colors.white,
-                    minimumSize: const Size(200, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  icon: const Icon(Icons.emoji_events),
-                  label: const Text("Show Winner 🏆"),
-                )
-                    : ElevatedButton(
-                  onPressed: _nextTeam,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.redAccent,
-                    foregroundColor: Colors.white,
-                    minimumSize: const Size(200, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: const Text("Next Team"),
-                ),
-              ),
+              SizedBox(height: screenHeight * 0.08),
+              _buildButton(_pauseResumeTimer, _isPaused ? "Resume Timer" : "Pause Timer", _isPaused ? Colors.blue : Colors.orange),
+              SizedBox(height: screenHeight * 0.02),
+              _buildButton(_correctAnswer, "Change Word (Correct Answer)", Colors.green),
+              SizedBox(height: screenHeight * 0.02),
+              allTeamsPlayed
+                  ? _buildButton(_announceWinner, "Show Winner 🏆", Colors.purple, icon: Icons.emoji_events)
+                  : _buildButton(_nextTeam, "Next Team", Colors.blueAccent),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildButton(VoidCallback onPressed, String text, Color color, {IconData? icon}) {
+    return Center(
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color,
+          foregroundColor: Colors.white,
+          minimumSize: Size(MediaQuery.of(context).size.width * 0.45, 50),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+        ),
+        child: icon != null
+            ? Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon),
+            const SizedBox(width: 6),
+            Text(text),
+          ],
+        )
+            : Text(text),
       ),
     );
   }

@@ -84,10 +84,9 @@ class _RoundOneScreenState extends State<RoundOneScreen> {
     setState(() {
       String currentTeam = GameData.teams[_currentTeamIndex];
       GameData.teamScores[currentTeam] = (GameData.teamScores[currentTeam] ?? 0) + 1;
-      _generateNewWord(); // Get a new word after a correct answer
+      _generateNewWord();
     });
   }
-
 
   void _goToRoundTwo() {
     _timer?.cancel();
@@ -99,12 +98,14 @@ class _RoundOneScreenState extends State<RoundOneScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     bool allTeamsPlayed = _currentTeamIndex == GameData.teams.length - 1;
 
     return Scaffold(
       body: Container(
-        width: double.infinity,
-        height: double.infinity,
+        width: screenWidth,
+        height: screenHeight,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/back.jpg"),
@@ -113,133 +114,91 @@ class _RoundOneScreenState extends State<RoundOneScreen> {
         ),
         child: SafeArea(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 80.0),
-                  child: Text(
-                    "Round One",
-                    style: TextStyle(
-                      fontSize: 45,
-                      fontWeight: FontWeight.bold,
-                      foreground: Paint()
-                        ..shader = const LinearGradient(
-                          colors: [Colors.cyan, Colors.white],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ).createShader(const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
-                    ),
-                  ),
+              SizedBox(height: screenHeight * 0.08),
+              Text(
+                "Round One",
+                style: TextStyle(
+                  fontSize: screenWidth * 0.11,
+                  fontWeight: FontWeight.bold,
+                  foreground: Paint()
+                    ..shader = const LinearGradient(
+                      colors: [Colors.cyan, Colors.white],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ).createShader(Rect.fromLTWH(0.0, 0.0, screenWidth, 70.0)),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 142.0, top: 20.0),
-                child: Text(
-                  GameData.teams.isNotEmpty
-                      ? " ${GameData.teams[_currentTeamIndex]}"
-                      : "No teams available!",
-                  style: const TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
-              ),
-              const SizedBox(height: 60),
-
-              /// Timer Display
-              Center(
-                child: Text(
-                  "$_timeLeft seconds left",
-                  style: const TextStyle(
-                    fontSize: 40,
-                    color: Colors.red,
+              SizedBox(height: screenHeight * 0.02),
+              Text(
+                GameData.teams.isNotEmpty
+                    ? "${GameData.teams[_currentTeamIndex]}"
+                    : "No teams available!",
+                style: TextStyle(
+                    fontSize: screenWidth * 0.09,
                     fontWeight: FontWeight.bold,
-                  ),
+                    color: Colors.white),
+              ),
+              SizedBox(height: screenHeight * 0.05),
+              Text(
+                "$_timeLeft seconds left",
+                style: TextStyle(
+                  fontSize: screenWidth * 0.09,
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 20),
-
-              /// Word Display
-              Center(
+              SizedBox(height: screenHeight * 0.02),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.0),
                 child: Text(
                   _currentWord.isNotEmpty ? _currentWord : "No word available!",
-                  style: const TextStyle(
-                    fontSize: 60,
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.13,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                   textAlign: TextAlign.center,
                 ),
               ),
-              const SizedBox(height: 80),
-
-              /// Pause / Resume Button
-              Center(
-                child: ElevatedButton(
-                  onPressed: _togglePauseResume,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: _isPaused ? Colors.blue : Colors.orange,
-                    foregroundColor: Colors.white,
-                    minimumSize: const Size(200, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: Text(_isPaused ? "Resume Timer" : "Pause Timer"),
-                ),
-              ),
-              const SizedBox(height: 20),
-
-              /// Correct Answer Button
-              Center(
-                child: ElevatedButton(
-                  onPressed: _correctAnswer,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
-                    minimumSize: const Size(200, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: const Text("Change Word (Correct Answer)"),
-                ),
-              ),
-              const SizedBox(height: 20),
-
-              /// Next Team / Next Round Button
-              Center(
-                child: !allTeamsPlayed
-                    ? ElevatedButton(
-                  onPressed: _nextTeam,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueAccent,
-                    foregroundColor: Colors.white,
-                    minimumSize: const Size(200, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: const Text("Next Team"),
-                )
-                    : ElevatedButton.icon(
-                  onPressed: _goToRoundTwo,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
-                    minimumSize: const Size(200, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  icon: const Icon(Icons.arrow_forward),
-                  label: const Text("Next Round →"),
-                ),
-              ),
+              SizedBox(height: screenHeight * 0.08),
+              _buildButton(_togglePauseResume, _isPaused ? "Resume Timer" : "Pause Timer", _isPaused ? Colors.blue : Colors.orange),
+              SizedBox(height: screenHeight * 0.02),
+              _buildButton(_correctAnswer, "Change Word (Correct Answer)", Colors.green),
+              SizedBox(height: screenHeight * 0.02),
+              allTeamsPlayed
+                  ? _buildButton(_goToRoundTwo, "Next Round →", Colors.lightBlueAccent, icon: Icons.arrow_forward)
+                  : _buildButton(_nextTeam, "Next Team", Colors.blueAccent),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildButton(VoidCallback onPressed, String text, Color color, {IconData? icon}) {
+    return Center(
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color,
+          foregroundColor: Colors.white,
+          minimumSize: Size(MediaQuery.of(context).size.width * 0.45, 50),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+        ),
+        child: icon != null
+            ? Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon),
+            const SizedBox(width: 6),
+            Text(text),
+          ],
+        )
+            : Text(text),
       ),
     );
   }

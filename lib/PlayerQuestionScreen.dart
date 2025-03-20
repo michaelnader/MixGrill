@@ -53,8 +53,13 @@ class _PlayerQuestionsScreenState extends State<PlayerQuestionsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: Container(
+        width: screenWidth,
+        height: screenHeight,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/b4.jpg"), // Background image
@@ -62,81 +67,77 @@ class _PlayerQuestionsScreenState extends State<PlayerQuestionsScreen> {
           ),
         ),
         child: SafeArea(
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return SingleChildScrollView(
-                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 20),
-                        ShaderMask(
-                          shaderCallback: (Rect bounds) {
-                            return const LinearGradient(
-                              colors: [Colors.cyan, Colors.white],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ).createShader(bounds);
-                          },
-                          child: const Text(
-                            "Mix Grill",
-                            style: TextStyle(
-                              fontSize: 38,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          "${widget.teamName} - Player ${widget.playerIndex}",
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                        const SizedBox(height: 40),
-
-                        _buildQuestionTextField("اسم شخصية عامة", question1Controller),
-                        const SizedBox(height: 15),
-                        _buildQuestionTextField("فيلم", question2Controller),
-                        const SizedBox(height: 15),
-                        _buildQuestionTextField("أغنية", question3Controller),
-                        const SizedBox(height: 15),
-                        _buildQuestionTextField("مكان في مصر", question4Controller),
-                        const SizedBox(height: 40),
-
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: _saveAnswers,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.lightBlue,
-                              padding: const EdgeInsets.symmetric(vertical: 15),
-                            ),
-                            child: const Text(
-                              "Submit and Next Player",
-                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ],
+          child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.03),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: screenHeight * 0.03),
+                  ShaderMask(
+                    shaderCallback: (Rect bounds) {
+                      return const LinearGradient(
+                        colors: [Colors.cyan, Colors.white],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ).createShader(bounds);
+                    },
+                    child: Text(
+                      "Mix Grill",
+                      style: TextStyle(
+                        fontSize: screenWidth * 0.1,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
+                  SizedBox(height: screenHeight * 0.02),
+                  Text(
+                    "${widget.teamName} - Player ${widget.playerIndex}",
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.05,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(height: screenHeight * 0.03),
+                  _buildQuestionTextField("اسم شخصية عامة", question1Controller, screenWidth),
+                  SizedBox(height: screenHeight * 0.02),
+                  _buildQuestionTextField("فيلم", question2Controller, screenWidth),
+                  SizedBox(height: screenHeight * 0.02),
+                  _buildQuestionTextField("أغنية", question3Controller, screenWidth),
+                  SizedBox(height: screenHeight * 0.02),
+                  _buildQuestionTextField("مكان في مصر", question4Controller, screenWidth),
+                  SizedBox(height: screenHeight * 0.05),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: _saveAnswers,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.lightBlue,
+                        padding: EdgeInsets.symmetric(vertical: screenHeight * 0.02),
+                      ),
+                      child: Text(
+                        "Submit and Next Player",
+                        style: TextStyle(
+                          fontSize: screenWidth * 0.042,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildQuestionTextField(String label, TextEditingController controller) {
+  Widget _buildQuestionTextField(String label, TextEditingController controller, double screenWidth) {
     return TextField(
       controller: controller,
       decoration: InputDecoration(
@@ -147,9 +148,9 @@ class _PlayerQuestionsScreenState extends State<PlayerQuestionsScreen> {
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
         ),
-        hintStyle: const TextStyle(color: Colors.white70),
+        hintStyle: TextStyle(color: Colors.white70, fontSize: screenWidth * 0.036),
       ),
-      style: const TextStyle(color: Colors.white),
+      style: TextStyle(color: Colors.white, fontSize: screenWidth * 0.03),
     );
   }
 }

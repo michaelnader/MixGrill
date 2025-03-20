@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
-import 'package:game/game_data.dart';
 import 'package:game/RoundOne.dart';
 
 class RoundOneIntro extends StatefulWidget {
@@ -13,9 +11,8 @@ class RoundOneIntro extends StatefulWidget {
 class _RoundOneIntroState extends State<RoundOneIntro>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  late Animation<double> _fadeAnimation;
-  late Animation<Offset> _slideAnimation;
   late Animation<double> _scaleAnimation;
+  late Animation<Offset> _slideAnimation;
 
   @override
   void initState() {
@@ -25,22 +22,22 @@ class _RoundOneIntroState extends State<RoundOneIntro>
       vsync: this,
     );
 
-    _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeIn),
+    _scaleAnimation = Tween<double>(begin: 0.8, end: 1).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
     );
 
     _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.3), // Start slightly below
+      begin: const Offset(0, 0.2),
       end: Offset.zero,
     ).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeOut),
     );
 
-    _scaleAnimation = Tween<double>(begin: 0.8, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.elasticOut),
-    );
-
-    _controller.forward();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _controller.forward();
+      }
+    });
   }
 
   @override
@@ -60,6 +57,9 @@ class _RoundOneIntroState extends State<RoundOneIntro>
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -74,73 +74,68 @@ class _RoundOneIntroState extends State<RoundOneIntro>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 50),
+              SizedBox(height: screenHeight * 0.06),
 
-              // Round One Title with Gradient Animation
-              FadeTransition(
-                opacity: _fadeAnimation,
-                child: Text(
-                  "Round One",
-                  style: TextStyle(
-                    fontSize: 50,
-                    fontWeight: FontWeight.bold,
-                    foreground: Paint()
-                      ..shader = const LinearGradient(
-                        colors: [Colors.cyan, Colors.white],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ).createShader(const Rect.fromLTWH(0.0, 0.0, 250.0, 70.0)),
-                  ),
+              // Round One Title
+              Text(
+                "Round One",
+                style: TextStyle(
+                  fontSize: screenWidth * 0.12,
+                  fontWeight: FontWeight.bold,
+                  foreground: Paint()
+                    ..shader = const LinearGradient(
+                      colors: [Colors.cyan, Colors.white],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ).createShader(const Rect.fromLTWH(0.0, 0.0, 250.0, 70.0)),
                 ),
               ),
 
-              const SizedBox(height: 80),
+              SizedBox(height: screenHeight * 0.08),
 
               // Circular Image with Scale Animation
-              ScaleTransition(
-                scale: _scaleAnimation,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.0),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(200),
-                  child: Image.asset("assets/tamsil.jpg", height: 250),
+                  borderRadius: BorderRadius.circular(screenWidth * 0.3),
+                  child: Image.asset("assets/tamsil.jpg", height: screenHeight * 0.28),
                 ),
               ),
-              const SizedBox(height: 60),
+              SizedBox(height: screenHeight * 0.05),
 
-              // Description with Slide Animation
-              SlideTransition(
-                position: _slideAnimation,
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 50),
-                  child: Text(
-                    "حد بيطلع بيمثل الحاجة اللى هتطلعله للفريق فى 60 ثانية و بيقول نوعها الاول قبل ما بيمثل يعنى لو طلعله اغنية 'انت الحظ' هيقول اغنية بعدين يبدأ يمثل",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
+                child: Text(
+                  "حد بيطلع بيمثل الحاجة اللى هتطلعله للفريق فى 60 ثانية و بيقول نوعها الاول قبل ما بيمثل يعنى لو طلعله اغنية 'انت الحظ' هيقول اغنية بعدين يبدأ يمثل",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.05,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
+              SizedBox(height: screenHeight * 0.1),
 
-              const SizedBox(height: 150),
-
-              // Continue Button
-              FadeTransition(
-                opacity: _fadeAnimation,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: navigateToRoundOne,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.lightBlueAccent,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: navigateToRoundOne,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.lightBlueAccent,
+                      foregroundColor: Colors.white,
+                      padding: EdgeInsets.symmetric(vertical: screenHeight * 0.02),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
                       ),
-                      child: const Text(
-                        "Continue",
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    child: Text(
+                      "Continue",
+                      style: TextStyle(
+                        fontSize: screenWidth * 0.05,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),

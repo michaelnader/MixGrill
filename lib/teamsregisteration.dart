@@ -19,19 +19,22 @@ class _TeamsState extends State<Teams> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: Container(
-        width: double.infinity,
-        height: double.infinity,
+        width: screenWidth,
+        height: screenHeight,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/b4.jpg"), //
+            image: AssetImage("assets/b4.jpg"), // Background image
             fit: BoxFit.cover,
           ),
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.03),
             child: Column(
               children: [
                 // Mix Grill Title with Gradient Effect
@@ -50,7 +53,7 @@ class _TeamsState extends State<Teams> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 30),
+                SizedBox(height: screenHeight * 0.03),
 
                 // Team Selection Section
                 Expanded(
@@ -99,7 +102,7 @@ class _TeamsState extends State<Teams> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.lightBlueAccent,
                     foregroundColor: Colors.white,
-                    minimumSize: const Size(double.infinity, 55),
+                    minimumSize: Size(double.infinity, screenHeight * 0.07),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25),
                     ),

@@ -51,10 +51,13 @@ class _RoundThreeIntroState extends State<RoundThreeIntro>
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: Container(
-        width: double.infinity,
-        height: double.infinity,
+        width: screenWidth,
+        height: screenHeight,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/back.jpg"),
@@ -65,8 +68,7 @@ class _RoundThreeIntroState extends State<RoundThreeIntro>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 50),
-              // Title with Gradient
+              SizedBox(height: screenHeight * 0.06),
               SlideTransition(
                 position: _slideAnimation,
                 child: FadeTransition(
@@ -74,7 +76,7 @@ class _RoundThreeIntroState extends State<RoundThreeIntro>
                   child: Text(
                     "Round Three",
                     style: TextStyle(
-                      fontSize: 50,
+                      fontSize: screenWidth * 0.12,
                       fontWeight: FontWeight.bold,
                       foreground: Paint()
                         ..shader = const LinearGradient(
@@ -86,23 +88,20 @@ class _RoundThreeIntroState extends State<RoundThreeIntro>
                   ),
                 ),
               ),
-              const SizedBox(height: 50),
-              // Animated Circular Image
-              FadeTransition(
+              SizedBox(height: screenHeight * 0.05),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30.0),
+             child:  FadeTransition(
                 opacity: _fadeAnimation,
-                child: ClipOval(
-                  child: Image.asset(
-                    "assets/last.jpg",
-                    height: 300,
-                    width: 350,
-                    fit: BoxFit.cover,
-                  ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(screenWidth * 0.3),
+                  child: Image.asset("assets/last.jpg", height: screenHeight * 0.2),
                 ),
               ),
-              const SizedBox(height: 40),
-              // Text Description
+              ),
+              SizedBox(height: screenHeight * 0.05),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40),
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
                 child: SlideTransition(
                   position: _slideAnimation,
                   child: FadeTransition(
@@ -113,7 +112,7 @@ class _RoundThreeIntroState extends State<RoundThreeIntro>
                           "يعنى مش هيقول 'اغنية'! طب لو الحاجة اصلا كلمة واحدة بيلعبها زى الجولة اللى فاتت.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 22,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
@@ -121,10 +120,9 @@ class _RoundThreeIntroState extends State<RoundThreeIntro>
                   ),
                 ),
               ),
-              const SizedBox(height: 80),
-              // Continue Button
+              SizedBox(height: screenHeight * 0.12),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
                 child: SlideTransition(
                   position: _slideAnimation,
                   child: SizedBox(
@@ -134,14 +132,17 @@ class _RoundThreeIntroState extends State<RoundThreeIntro>
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.lightBlueAccent,
                         foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        padding: EdgeInsets.symmetric(vertical: screenHeight * 0.02),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
                       ),
-                      child: const Text(
+                      child: Text(
                         "Continue",
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: screenWidth * 0.05,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),

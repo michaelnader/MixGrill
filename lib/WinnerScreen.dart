@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:game/game_data.dart';
 import 'package:game/teamsregisteration.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class WinnerScreen extends StatefulWidget {
   const WinnerScreen({super.key});
@@ -15,6 +16,7 @@ class _WinnerScreenState extends State<WinnerScreen>
   late Animation<double> _scaleAnimation;
   late Animation<Offset> _slideAnimation;
   late Animation<double> _fadeAnimation;
+  final AudioPlayer _audioPlayer = AudioPlayer();
 
   @override
   void initState() {
@@ -40,38 +42,40 @@ class _WinnerScreenState extends State<WinnerScreen>
     );
 
     _controller.forward();
+    _playWinnerSound();
+  }
+
+  void _playWinnerSound() async {
+    await _audioPlayer.play(AssetSource('winner.mp3'));
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _audioPlayer.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     if (GameData.teamScores.isEmpty) {
       return Scaffold(
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/back.jpg"),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: const Center(
-            child: Text(
-              "No scores recorded.",
-              style: TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
+        body: Center(
+          child: Text(
+            "No scores recorded.",
+            style: TextStyle(
+              fontSize: screenWidth * 0.06,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
       );
     }
 
-    // Find the team with the highest score
     String winner = "No winner";
     int highestScore = 0;
     GameData.teamScores.forEach((team, score) {
@@ -83,8 +87,8 @@ class _WinnerScreenState extends State<WinnerScreen>
 
     return Scaffold(
       body: Container(
-        width: double.infinity,
-        height: double.infinity,
+        width: screenWidth,
+        height: screenHeight,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/back.jpg"),
@@ -95,70 +99,59 @@ class _WinnerScreenState extends State<WinnerScreen>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 50),
-
-              // Trophy Animation
               ScaleTransition(
                 scale: _scaleAnimation,
-                child: const Icon(
+                child: Icon(
                   Icons.emoji_events,
-                  size: 100,
+                  size: screenWidth * 0.25,
                   color: Colors.amber,
                 ),
               ),
-              const SizedBox(height: 20),
-
-              // Winner Title with Gradient
+              SizedBox(height: screenHeight * 0.02),
               SlideTransition(
                 position: _slideAnimation,
                 child: Text(
                   "🏆 Winner 🏆",
                   style: TextStyle(
-                    fontSize: 50,
+                    fontSize: screenWidth * 0.12,
                     fontWeight: FontWeight.bold,
                     foreground: Paint()
                       ..shader = const LinearGradient(
                         colors: [Colors.cyan, Colors.white],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
-                      ).createShader(const Rect.fromLTWH(0.0, 0.0, 250.0, 70.0)),
+                      ).createShader(Rect.fromLTWH(0.0, 0.0, screenWidth, 70.0)),
                   ),
                 ),
               ),
-              const SizedBox(height: 40),
-
-              // Winner's Name
+              SizedBox(height: screenHeight * 0.04),
               FadeTransition(
                 opacity: _fadeAnimation,
                 child: Text(
                   winner,
-                  style: const TextStyle(
-                    fontSize: 40,
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.15,
                     fontWeight: FontWeight.bold,
                     color: Colors.orange,
                   ),
                   textAlign: TextAlign.center,
                 ),
               ),
-              const SizedBox(height: 20),
-
-              // Final Score
+              SizedBox(height: screenHeight * 0.02),
               FadeTransition(
                 opacity: _fadeAnimation,
                 child: Text(
                   "Final Score: $highestScore",
-                  style: const TextStyle(
-                    fontSize: 30,
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.08,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
               ),
-              const SizedBox(height: 50),
-
-              // Play Again Button
+              SizedBox(height: screenHeight * 0.05),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
                 child: SlideTransition(
                   position: _slideAnimation,
                   child: SizedBox(
@@ -174,14 +167,17 @@ class _WinnerScreenState extends State<WinnerScreen>
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.lightBlueAccent,
                         foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        padding: EdgeInsets.symmetric(vertical: screenHeight * 0.02),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
                       ),
-                      child: const Text(
+                      child: Text(
                         "Play Again",
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: screenWidth * 0.05,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),

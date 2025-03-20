@@ -24,7 +24,7 @@ class _RoundTwoIntroState extends State<RoundTwoIntro>
     );
 
     _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 1), // Start from below
+      begin: const Offset(0, 1),
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
@@ -32,7 +32,7 @@ class _RoundTwoIntroState extends State<RoundTwoIntro>
       CurvedAnimation(parent: _controller, curve: Curves.easeIn),
     );
 
-    _controller.forward(); // Start the animation
+    _controller.forward();
   }
 
   void navigateToRoundTwo() {
@@ -50,6 +50,9 @@ class _RoundTwoIntroState extends State<RoundTwoIntro>
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -64,7 +67,7 @@ class _RoundTwoIntroState extends State<RoundTwoIntro>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 50),
+              SizedBox(height: screenHeight * 0.05),
               FadeTransition(
                 opacity: _fadeAnimation,
                 child: SlideTransition(
@@ -72,7 +75,7 @@ class _RoundTwoIntroState extends State<RoundTwoIntro>
                   child: Text(
                     "Round Two",
                     style: TextStyle(
-                      fontSize: 50,
+                      fontSize: screenWidth * 0.12,
                       fontWeight: FontWeight.bold,
                       foreground: Paint()
                         ..shader = const LinearGradient(
@@ -84,33 +87,33 @@ class _RoundTwoIntroState extends State<RoundTwoIntro>
                   ),
                 ),
               ),
-              const SizedBox(height: 50),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(150), // Make it fully circular
-                child: Image.asset("assets/password.jpg", height: 250),
-              ),
-              const SizedBox(height: 50),
-
+              SizedBox(height: screenHeight * 0.05),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 50),
+                padding: EdgeInsets.symmetric(horizontal: 15.0),
+              child:  ClipRRect(
+                borderRadius: BorderRadius.circular(screenWidth * 0.3),
+                child: Image.asset("assets/password.jpg", height: screenHeight * 0.28),
+              ),
+        ),
+              SizedBox(height: screenHeight * 0.05),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.12),
                 child: FadeTransition(
                   opacity: _fadeAnimation,
                   child: const Text(
                     "الجولة التانية شخص هيطلع يشرح الحاجة اللى طلعت فى كلمة واحدة بس بشرط ماتكونش موجودة فى الحاجة اللى طلعتلك و ممكن كل 15 ثانية يقول كلمة جديدة الفريق معاة 60 ثانية و برضو بيقول نوعها الاول",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 22,
+                      fontSize: 21,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ),
-
-
-              const SizedBox(height: 150),
+              SizedBox(height: screenHeight * 0.08),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
                 child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -118,14 +121,14 @@ class _RoundTwoIntroState extends State<RoundTwoIntro>
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.lightBlueAccent,
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      padding: EdgeInsets.symmetric(vertical: screenHeight * 0.02),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                    child: const Text(
+                    child: Text(
                       "Continue",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: screenWidth * 0.05, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),

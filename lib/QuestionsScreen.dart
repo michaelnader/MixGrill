@@ -9,10 +9,13 @@ class QuestionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: Container(
-        width: double.infinity,
-        height: double.infinity,
+        width: screenWidth,
+        height: screenHeight,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/b4.jpg"),
@@ -21,7 +24,8 @@ class QuestionsScreen extends StatelessWidget {
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            padding: EdgeInsets.symmetric(
+                horizontal: screenWidth * 0.05, vertical: screenHeight * 0.03),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -32,27 +36,28 @@ class QuestionsScreen extends StatelessWidget {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ).createShader(bounds),
-                  child: const Text(
+                  child: Text(
                     "Mix Grill",
                     style: TextStyle(
-                      fontSize: 50,
+                      fontSize: screenWidth * 0.12,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: screenHeight * 0.02),
 
                 Expanded(
                   child: ListView(
                     children: teamData.entries
                         .where((entry) => entry.value >= 2)
-                        .map((entry) => _buildTeamSection(context, entry.key, entry.value))
+                        .map((entry) => _buildTeamSection(
+                        context, entry.key, entry.value, screenWidth))
                         .toList(),
                   ),
                 ),
 
-                const SizedBox(height: 20),
+                SizedBox(height: screenHeight * 0.02),
 
                 // Submit Button
                 ElevatedButton(
@@ -67,12 +72,15 @@ class QuestionsScreen extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.lightBlueAccent,
                     foregroundColor: Colors.white,
-                    minimumSize: const Size(double.infinity, 55),
+                    minimumSize: Size(double.infinity, screenHeight * 0.07),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25),
                     ),
                   ),
-                  child: const Text("Submit All", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  child: Text("Submit All",
+                      style: TextStyle(
+                          fontSize: screenWidth * 0.045,
+                          fontWeight: FontWeight.bold)),
                 ),
               ],
             ),
@@ -82,33 +90,39 @@ class QuestionsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTeamSection(BuildContext context, String teamName, int playerCount) {
+  Widget _buildTeamSection(
+      BuildContext context, String teamName, int playerCount, double screenWidth) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
+      padding: EdgeInsets.only(bottom: screenWidth * 0.05),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.2),
           borderRadius: BorderRadius.circular(15),
         ),
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(screenWidth * 0.04),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               "$teamName (Players: $playerCount)",
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+              style: TextStyle(
+                  fontSize: screenWidth * 0.045,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
             ),
-            const SizedBox(height: 10),
-            ...List.generate(playerCount, (index) => _buildPlayerButton(context, teamName, index)),
+            SizedBox(height: screenWidth * 0.02),
+            ...List.generate(playerCount,
+                    (index) => _buildPlayerButton(context, teamName, index, screenWidth)),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildPlayerButton(BuildContext context, String teamName, int playerIndex) {
+  Widget _buildPlayerButton(
+      BuildContext context, String teamName, int playerIndex, double screenWidth) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
+      padding: EdgeInsets.only(bottom: screenWidth * 0.02),
       child: ElevatedButton(
         onPressed: () {
           Navigator.push(
@@ -124,12 +138,13 @@ class QuestionsScreen extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.lightBlueAccent,
           foregroundColor: Colors.white,
-          minimumSize: const Size(double.infinity, 50),
+          minimumSize: Size(double.infinity, screenWidth * 0.12),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
         ),
-        child: Text("Player ${playerIndex + 1} Questions", style: const TextStyle(fontSize: 16)),
+        child: Text("Player ${playerIndex + 1} Questions",
+            style: TextStyle(fontSize: screenWidth * 0.040)),
       ),
     );
   }
