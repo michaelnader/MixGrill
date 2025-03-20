@@ -3,27 +3,28 @@
 This is a multiplayer Flutter game where players compete in multiple rounds.
 
 ## 📸 Screenshots
+### Splash screen
+![splash Screen](Launch.jpg)
 
-### Splash home Screen
-![Splash home Screen](intro.jpg)
+### home Screen
+![home Screen](Home.jpg)
 
 ### Team Registeration Screen
 ![Registeration](Registeration.jpg)
 ![Registeration](Registeration2.jpg)
 
 ### Teams Screen
-![Teams](Questions.jpg)
+![Teams](Teams.jpg)
 
 ### Player Questions Screens
 ![Player Questions](playerQuestion.jpg)
-![Player Questions 2](playerQuestion2.jpg)
 
-### Round Intro Screen
-![Round intro](roundoneIntro.jpg)
 
-### Round 1 Screen
-![Round 1](roundone.jpg)
-![Round 1](round2.jpg)
+### Rounds Screen
+![Round 1 ](Roundone.jpg)
+![Round 2 ](Round2.jpg)
+![Round 3 ](round.jpg)
+
 
 ### Winner Screen
-![Winner](winner.jpg)
+![Winner](Winner.jpg)
