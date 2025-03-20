@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'home.dart';
+import 'home.dart'; // Import your custom SplashScreen file
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter is initialized
+  await Future.delayed(const Duration(seconds: 3)); // Add the delay here
   runApp(const MyApp());
 }
 
@@ -13,15 +15,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.transparent, // Ensure background is transparent
+        scaffoldBackgroundColor: Colors.transparent,
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: {
-            TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(), // Smooth fade effect
-            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(), // iOS-like transition
+            TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
           },
         ),
       ),
-      home: const SplashScreen(), // Ensure this is the correct entry point
+      home: const SplashScreen(), // Directly go to SplashScreen
     );
   }
 }
