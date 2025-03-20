@@ -21,9 +21,9 @@ This is a multiplayer Flutter game where players compete in multiple rounds.
 
 
 ### Rounds Screen
-![Round 1 ](Roundone.jpg)
-![Round 2 ](Round2.jpg)
-![Round 3 ](round.jpg)
+![Rounds ](Roundone.jpg)
+![Rounds ](Round2.jpg)
+![Rounds ](round.jpg)
 
 
 ### Winner Screen
