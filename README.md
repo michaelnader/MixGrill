@@ -31,9 +31,10 @@ This is a multiplayer Flutter game where players compete in multiple rounds.
 
 ### Rounds Screens  
 <p align="center">
-  <img src="roundone.jpg" width="300">
-  <img src="round2.jpg" width="300">
-  <img src="round3.jpg" width="300">
+    <img src="https://imgur.com/XtmiyIb.png" width="300">
+  <img src="https://imgur.com/8dqMI2o.png" width="300">
+  <img src="https://imgur.com/gEopa3Q.png" width="300">
+  <img src="https://imgur.com/MP8TuC7.png" width="300">
 </p>
 
 ### Winner Screen  
