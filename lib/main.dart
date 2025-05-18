@@ -3,7 +3,7 @@ import 'home.dart'; // Import your custom SplashScreen file
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter is initialized
-  await Future.delayed(const Duration(seconds: 3)); // Add the delay here
+  await Future.delayed(const Duration(seconds: 2)); // Add the delay here
   runApp(const MyApp());
 }
 

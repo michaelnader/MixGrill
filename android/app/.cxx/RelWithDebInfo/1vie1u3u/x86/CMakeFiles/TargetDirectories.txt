@@ -1,0 +1,2 @@
+C:/Users/micha/StudioProjects/Game/android/app/.cxx/RelWithDebInfo/1vie1u3u/x86/CMakeFiles/edit_cache.dir
+C:/Users/micha/StudioProjects/Game/android/app/.cxx/RelWithDebInfo/1vie1u3u/x86/CMakeFiles/rebuild_cache.dir

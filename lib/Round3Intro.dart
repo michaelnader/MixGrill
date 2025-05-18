@@ -83,7 +83,8 @@ class _RoundThreeIntroState extends State<RoundThreeIntro>
                           colors: [Colors.cyan, Colors.white],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
-                        ).createShader(const Rect.fromLTWH(0.0, 0.0, 250.0, 70.0)),
+                        ).createShader(
+                            const Rect.fromLTWH(0.0, 0.0, 250.0, 70.0)),
                     ),
                   ),
                 ),
@@ -91,13 +92,14 @@ class _RoundThreeIntroState extends State<RoundThreeIntro>
               SizedBox(height: screenHeight * 0.05),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30.0),
-             child:  FadeTransition(
-                opacity: _fadeAnimation,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(screenWidth * 0.3),
-                  child: Image.asset("assets/last.jpg", height: screenHeight * 0.2),
+                child: FadeTransition(
+                  opacity: _fadeAnimation,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(screenWidth * 0.3),
+                    child: Image.asset("assets/last.jpg",
+                        height: screenHeight * 0.2),
+                  ),
                 ),
-              ),
               ),
               SizedBox(height: screenHeight * 0.05),
               Padding(
@@ -107,9 +109,7 @@ class _RoundThreeIntroState extends State<RoundThreeIntro>
                   child: FadeTransition(
                     opacity: _fadeAnimation,
                     child: const Text(
-                      "اخر جولة و اسهل واحدة ان اللى بيطلع بيقول للفريق كلمة من الحاجة اللى طلعتله "
-                          "مثلا لو جاله اغنية 'انت الحظ' ممكن ييقول 'الحظ', فى الجولة دى مش بنقول النوع "
-                          "يعنى مش هيقول 'اغنية'! طب لو الحاجة اصلا كلمة واحدة بيلعبها زى الجولة اللى فاتت.",
+                      "الجولة التالتة و اسهل جولة هنا ماتقدرش تقول النوع و مسموح انك تكلم عادى و تشرح براحتك من غير ماتستخدم اى كلمة من الاجابة خالص و مع كل اجابة صحيحة -5 من الوقت ",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 22,
@@ -132,7 +132,8 @@ class _RoundThreeIntroState extends State<RoundThreeIntro>
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.lightBlueAccent,
                         foregroundColor: Colors.white,
-                        padding: EdgeInsets.symmetric(vertical: screenHeight * 0.02),
+                        padding:
+                            EdgeInsets.symmetric(vertical: screenHeight * 0.02),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
